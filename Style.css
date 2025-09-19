@@ -1,0 +1,290 @@
+/* ============================
+   VARIABLES Y BASE
+============================ */
+
+/* :root declara variables CSS globales que podemos reutilizar. */
+:root { /* inicio del bloque de variables globales */
+  --card: rgba(255,255,255,0.15); /* Fondo translúcido (color base para tarjetas/headers). */
+  --glass-blur: 24px;             /* Valor del desenfoque usado en backdrop-filter. */
+  --border-glass: rgba(255,255,255,0.4); /* Color del borde translúcido del "glass". */
+  --accent-1: #1abc9c;            /* Color principal de acento (turquesa). */
+  --radius: 16px;                 /* Radio de esquina estándar para elementos redondeados. */
+  --muted: #e0f7fa;               /* Color suave para texto secundario / links. */
+} /* fin de :root */
+
+/* Selector universal: aplica a todos los elementos del documento */
+* { 
+  box-sizing: border-box; /* Hace que padding y border se incluyan en el ancho/alto total. */
+  margin: 0;               /* Elimina márgenes por defecto de navegadores. */
+  padding: 0;              /* Elimina padding por defecto de navegadores. */
+}
+
+/* Estilos base del documento */
+body {
+  font-family: Arial, sans-serif; /* Fuente por defecto para todo el body. */
+  /* Fondo: degradado + imagen fija que cubre la pantalla */
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364), 
+              url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e")
+              center/cover no-repeat fixed; /* Centrar, cubrir, no repetir y fijar al viewport */
+  color: white; /* Color de texto principal en el sitio (blanco). */
+}
+
+/* ============================
+   HEADER
+============================ */
+
+/* Contenedor principal del encabezado (logo + navegación) */
+.header {
+  display: flex;                     /* Activa Flexbox para alinear hijos en fila. */
+  justify-content: space-between;    /* Espacio entre logo (izq) y nav (der). */
+  align-items: center;               /* Centra verticalmente los elementos dentro del header. */
+  padding: 14px 20px;                /* Espacio interno: 14px arriba/abajo y 20px izquierda/derecha. */
+  border-radius: var(--radius);      /* Aplica esquinas redondeadas usando la variable. */
+  background: var(--card);           /* Fondo translúcido tipo vidrio (usa la variable --card). */
+  backdrop-filter: blur(var(--glass-blur)); /* Desenfoca lo que está detrás del elemento (efecto vidrio). */
+  -webkit-backdrop-filter: blur(var(--glass-blur)); /* Versión para Safari (WebKit). */
+  border: 1px solid var(--border-glass); /* Borde semitransparente que refuerza el efecto vidrio. */
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4); /* Sombra para dar profundidad y "levantar" el header. */
+  margin-bottom: 30px;               /* Separación abajo para que el contenido no quede pegado. */
+}
+
+/* Contenedor del logo (imagen + texto inline) */
+.logo {
+  display: flex;              /* Usa flex para alinear imagen y texto en una fila. */
+  align-items: center;        /* Centra verticalmente la imagen y el texto del logo. */
+  text-decoration: none;      /* Evita subrayado si el logo es un enlace <a>. */
+  gap: 10px;                  /* Espacio entre la imagen y el texto del logo. */
+}
+
+/* Tamaño de la imagen del logo */
+.logo img {
+  width: 60px;   /* Ancho fijo del logo. */
+  height: 60px;  /* Alto fijo del logo. */
+}
+
+/* Estilo del texto del logo (tipografía marinera) */
+.logo-text {
+  font-family: 'Sail', cursive; /* Fuente decorativa para el nombre de la marca. */
+  font-size: 32px;              /* Tamaño grande para que destaque. */
+  color: var(--accent-1);       /* Color turquesa de acento para el nombre. */
+}
+
+/* Contenedor de la navegación dentro del header */
+.header nav {
+  display: flex;   /* Muestra los enlaces en fila. */
+  gap: 16px;       /* Espacio entre cada enlace de navegación. */
+}
+
+/* Estilos de los enlaces del menú en el header */
+.header nav a {
+  padding: 8px 12px;           /* Relleno para aumentar la zona clickeable. */
+  border-radius: var(--radius);/* Bordes redondeados al pasar el cursor (si se aplica background). */
+  transition: 0.3s;            /* Transición suave para hover/efectos. */
+  color: var(--muted);         /* Color claro para los enlaces (no tan brillante como el blanco). */
+  text-decoration: none;       /* Quitar subrayado por defecto de los links. */
+  font-size: 18px; /* tamaño del texto nav */ /* Tamaño del texto del menú. */
+}
+
+/* Efecto visual cuando el usuario pasa el ratón sobre los enlaces del header */
+.header nav a:hover {
+  background: var(--accent-1); /* Fondo turquesa al pasar el mouse. */
+  color: white;                /* Texto blanco para asegurar contraste. */
+}
+
+/* ============================
+   HERO
+============================ */
+
+/* Sección principal de portada (hero) */
+.hero {
+  text-align: center; /* Centra el texto horizontalmente dentro del hero. */
+  padding: 120px 20px; /* Gran padding vertical para dar protagonismo. */
+  background: url("https://images.unsplash.com/photo-1519046904884-53103b34b206")
+              center/cover no-repeat; /* Imagen de fondo centrada que cubre el área sin repetirse. */
+  border-radius: var(--radius); /* Bordes redondeados que coinciden con la estética general. */
+  position: relative;  /* Necesario para posicionar el overlay ::after por encima de la imagen. */
+  color: white;        /* Color por defecto del texto dentro del hero. */
+  overflow: hidden;    /* Evita que elementos hijos se salgan de las esquinas redondeadas. */
+  margin: 0 20px;      /* Margen lateral para separar del borde del viewport en pantallas grandes. */
+}
+
+/* Overlay oscuro encima de la imagen del hero para mejorar legibilidad */
+.hero::after {
+  content: "";                /* Crea el pseudo-elemento vacío. */
+  position: absolute;         /* Posicionamiento absoluto respecto al .hero (porque .hero es relative). */
+  inset: 0;                   /* Top:0; right:0; bottom:0; left:0; cubre todo el hero. */
+  background: rgba(0,0,0,0.4);/* Capa semitransparente negra que oscurece la imagen. */
+}
+
+/* Asegura que estos elementos estén por encima del overlay (z-index) */
+.hero h1,
+.hero p,
+.hero .btn {
+  position: relative; /* Coloca el contenido en flujo normal pero permite z-index. */
+  z-index: 1;         /* Lo pone encima del ::after para que sea visible. */
+}
+
+/* Título principal dentro del hero */
+.hero h1 {
+  font-family: 'Sail', cursive; /* Fuente marinera decorativa para el título. */
+  font-size: 56px;              /* Tamaño grande para protagonismo. */
+  margin-bottom: 20px;          /* Separación debajo del título. */
+  color: var(--accent-1);       /* Color de acento para resaltar el título. */
+}
+
+/* Párrafo descriptivo dentro del hero */
+.hero p {
+  font-size: 20px; /* Tamaño legible para subtítulo. */
+  margin-bottom: 20px; /* Separación del botón o siguiente elemento. */
+}
+
+/* Botones reutilizables (clase .btn) */
+.btn {
+  display: inline-block;             /* Se comporta como elemento en línea con propiedades de bloque. */
+  padding: 12px 24px;                /* Espaciado interno del botón. */
+  background: var(--accent-1);       /* Fondo turquesa (acento). */
+  color: white;                      /* Texto blanco dentro del botón. */
+  border-radius: var(--radius);      /* Bordes redondeados consistentes con el tema. */
+  text-decoration: none;             /* Quita subrayado si es un enlace. */
+  font-weight: bold;                 /* Texto en negrita para llamar la atención. */
+  transition: 0.3s;                  /* Transición suave para hover. */
+}
+
+/* Efecto al pasar el cursor sobre el botón */
+.btn:hover {
+  background: white;                 /* Invierte colores: fondo blanco. */
+  color: var(--accent-1);            /* Texto en color de acento para contraste. */
+}
+
+/* ============================
+   CARDS SECCIÓN
+============================ */
+
+/* Contenedor grid para las tarjetas/servicios */
+.cards {
+  display: grid; /* Activa Grid Layout para organizar las cards. */
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); /* Columnas responsivas: mínimo 250px, se adaptan. */
+  gap: 20px; /* Espacio entre tarjetas. */
+  padding: 40px; /* Espaciado interno alrededor de todo el grid. */
+}
+
+/* Estilo individual de cada tarjeta (card) */
+.card {
+  background: var(--card); /* Fondo translúcido para simular vidrio. */
+  backdrop-filter: blur(var(--glass-blur)); /* Desenfoque del fondo detrás de la tarjeta. */
+  -webkit-backdrop-filter: blur(var(--glass-blur)); /* Soporte Safari. */
+  border: 1px solid var(--border-glass); /* Borde sutil que resalta el contorno. */
+  border-radius: var(--radius); /* Esquinas redondeadas. */
+  padding: 20px; /* Espacio interior dentro de la tarjeta. */
+  text-align: center; /* Centra el contenido dentro de la tarjeta. */
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3); /* Sombra externa para dar profundidad. */
+  transition: transform 0.3s; /* Transición para la animación hover (movimiento). */
+}
+
+/* Efecto hover: la tarjeta se eleva levemente */
+.card:hover {
+  transform: translateY(-5px); /* Mueve la tarjeta 5px hacia arriba al pasar el mouse. */
+}
+
+.card img {
+    width: 300px;   /* Ancho fijo del logo. */
+    height: 250px;  /* Alto fijo del logo. */
+    align-content: center;
+}
+
+/* ============================
+   FOOTER
+============================ */
+
+/* Pie de página con el mismo efecto glass */
+.footer {
+  text-align: center; /* Centra el contenido del footer. */
+  padding: 20px; /* Espaciado interno del footer. */
+  background: var(--card); /* Fondo translúcido consistente con otras piezas glass. */
+  backdrop-filter: blur(var(--glass-blur)); /* Desenfoque detrás del footer. */
+  -webkit-backdrop-filter: blur(var(--glass-blur)); /* Soporte Safari. */
+  border: 1px solid var(--border-glass); /* Borde sutil en el footer. */
+  margin-top: 30px; /* Separación arriba respecto al contenido anterior. */
+  border-radius: var(--radius); /* Esquinas redondeadas. */
+}
+
+/* Subtítulo para secciones simples (sin cards) */
+.subtitulo {
+  font-size: 2rem; /* Tamaño grande para destacar como subtítulo. */
+  color: var(--accent-1); /* Color de acento para coherencia visual. */
+  margin-bottom: 10px; /* Separación inferior del subtítulo. */
+  text-align: center; /* Centrado del subtítulo. */
+}
+
+/* Estilo de párrafo en bloques simples de contenido */
+.contenido p {
+  text-align: center; /* Centra el texto del párrafo. */
+  color: var(--muted); /* Color claro / suave para el texto secundario. */
+}
+
+/* Contenedor del formulario */
+.formulario {
+  max-width: 500px;             /* ancho máximo del formulario */
+  margin: 40px auto;            /* centra horizontalmente */
+  padding: 20px;                /* espacio interior */
+  background: var(--card);      /* fondo translúcido tipo vidrio */
+  backdrop-filter: blur(var(--glass-blur)); /* desenfoque glassmorphism */
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-radius: var(--radius); /* esquinas redondeadas */
+  border: 1px solid var(--border-glass); /* borde translúcido */
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3); /* sombra para profundidad */
+}
+
+/* Etiquetas del formulario */
+.formulario label {
+  display: block;               /* cada label en línea completa */
+  margin-bottom: 8px;           /* espacio debajo del label */
+  color: var(--muted);          /* color suave */
+  font-weight: bold;            /* un poco de énfasis */
+}
+
+/* Estilos comunes para input y textarea */
+.formulario input,
+.formulario textarea {
+  width: 100%;                  /* que ocupen todo el ancho */
+  padding: 12px;                /* espacio interior */
+  margin-bottom: 20px;          /* separación entre campos */
+  border-radius: var(--radius); /* bordes suaves */
+  border: 1px solid var(--border-glass); /* borde translúcido */
+  background: rgba(255,255,255,0.20);     /* fondo semitransparente */
+  color: white;                 /* texto blanco dentro */
+  font-size: 16px;              /* tamaño del texto */
+  outline: none;                /* quita borde azul por defecto */
+  backdrop-filter: blur(var(--glass-blur)); /* desenfoque detrás */
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  transition: 0.3s;             /* transición suave en hover/focus */
+}
+
+/* Efecto al enfocar (focus) */
+.formulario input:focus,
+.formulario textarea:focus {
+  border-color: var(--accent-1); /* borde turquesa al seleccionar */
+  background: rgba(255,255,255,0.2); /* fondo más claro */
+}
+
+/* Botón del formulario reutilizando .btn */
+.formulario .btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background: var(--accent-1);
+  color: white;
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+
+}
+
+.formulario .btn:hover {
+  background: white;
+  color: var(--accent-1);
+
+}
+
